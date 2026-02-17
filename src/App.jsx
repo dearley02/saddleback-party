@@ -251,7 +251,7 @@ const HomePage = ({ nav }) => (
 
     <div className="py-5" style={{ background: C.terra }}>
       <div className="max-w-6xl mx-auto px-6 flex flex-wrap justify-center gap-6 md:gap-14">
-        {["⚡ Same-Day Available","🚚 Free Delivery Over $500","📍 Based in Coto de Caza","⭐ 5-Star Service"].map((t, i) => (
+        {["⚡ Same-Day Available","🚚 Free Delivery Over $500","📍 Based in Mission Viejo","⭐ 5-Star Service"].map((t, i) => (
           <span key={i} style={{ fontFamily: "'Outfit',sans-serif", color: C.cream, fontSize: "0.8rem", fontWeight: 500, whiteSpace: "nowrap" }}>{t}</span>
         ))}
       </div>
@@ -308,7 +308,7 @@ const HomePage = ({ nav }) => (
         <div className="flex flex-wrap justify-center gap-3 mb-6">
           {serviceAreas.map((a, i) => <button key={i} onClick={() => nav("areas")} className="px-5 py-2.5 rounded-full text-sm transition-all duration-300 hover:scale-105" style={{ background: C.white, color: C.espresso, border: `1px solid ${C.sandDark}`, fontFamily: "'Outfit',sans-serif", fontWeight: 500, cursor: "pointer" }}>📍 {a.city}</button>)}
         </div>
-        <p className="text-center text-sm" style={{ color: C.driftwood }}>Based in Coto de Caza, delivering to all South OC. <button onClick={() => nav("areas")} style={{ color: C.terra, fontWeight: 600, background: "none", border: "none", cursor: "pointer", textDecoration: "underline" }}>See all service areas →</button></p>
+        <p className="text-center text-sm" style={{ color: C.driftwood }}>Based in Mission Viejo, delivering to all South OC. <button onClick={() => nav("areas")} style={{ color: C.terra, fontWeight: 600, background: "none", border: "none", cursor: "pointer", textDecoration: "underline" }}>See all service areas →</button></p>
       </div>
     </section>
 
@@ -386,7 +386,7 @@ const AreasPage = ({ nav }) => (
     <section className="pt-16 pb-12 relative overflow-hidden" style={{ background: `linear-gradient(160deg, ${C.linen}, ${C.mintWash})` }}>
       <div className="max-w-6xl mx-auto px-6 text-center relative z-10">
         <SubHead title="Service Areas" sub="Our Neighborhood" />
-        <p className="max-w-xl mx-auto -mt-8" style={{ color: C.driftwood, fontFamily: "'Outfit',sans-serif", fontSize: "0.95rem" }}>Based in Coto de Caza. Local means faster delivery and lower fees.</p>
+        <p className="max-w-xl mx-auto -mt-8" style={{ color: C.driftwood, fontFamily: "'Outfit',sans-serif", fontSize: "0.95rem" }}>Based in Mission Viejo. Local means faster delivery and lower fees.</p>
       </div>
     </section>
     <section className="py-10" style={{ background: C.cream }}>
@@ -438,7 +438,7 @@ const QuotePage = ({ nav }) => {
         <div className="text-6xl mb-6">🎉</div>
         <h2 className="mb-4" style={{ fontFamily: "'DM Serif Display',serif", color: C.espresso, fontSize: "2rem" }}>Quote Request Submitted!</h2>
         <p className="mb-3" style={{ color: C.driftwood, fontFamily: "'Outfit',sans-serif" }}>We'll review your request and get back to you within a few hours with a detailed quote.</p>
-        <p className="text-sm mb-8" style={{ color: C.driftwood }}>For urgent inquiries, call <strong style={{ color: C.espresso }}>(949) 555-0123</strong>.</p>
+        <p className="text-sm mb-8" style={{ color: C.driftwood }}>For urgent inquiries, call <strong style={{ color: C.espresso }}>(760) 310-0664</strong>.</p>
         <Btn variant="dark" onClick={() => { setSubmitted(false); nav("home"); }}>← Back to Home</Btn>
       </div>
     </section>
@@ -523,7 +523,7 @@ const QuotePage = ({ nav }) => {
                 </>) : <p className="text-sm mb-4" style={{ color: "rgba(255,255,255,0.4)" }}>Select items to see your estimate.</p>}
                 <div className="pt-5" style={{ borderTop: "1px solid rgba(255,255,255,0.08)" }}>
                   <div className="text-xs font-bold tracking-wider uppercase mb-3" style={{ color: C.terraLight }}>Questions?</div>
-                  <div className="space-y-2 text-sm" style={{ color: "rgba(255,255,255,0.5)" }}><p>📞 (949) 555-0123</p><p>📧 info@saddlebackparty.com</p><p>📍 Coto de Caza, CA</p><p>🕐 Mon-Sat 8am-7pm</p></div>
+                  <div className="space-y-2 text-sm" style={{ color: "rgba(255,255,255,0.5)" }}><p>📞 (760) 310-0664</p><p>📧 saddlebackparty@gmail.com</p><p>📍 Mission Viejo, CA</p><p>🕐 Mon-Sat 8am-7pm</p></div>
                 </div>
               </div>
             </div>
@@ -589,7 +589,7 @@ export default function App() {
                 <div className="flex items-center justify-center rounded-full" style={{ width: 36, height: 36, background: C.terra }}><span style={{ fontFamily: "'DM Serif Display',serif", color: C.cream, fontSize: "1.1rem" }}>S</span></div>
                 <div className="flex flex-col leading-tight"><span style={{ fontFamily: "'DM Serif Display',serif", color: C.cream, fontSize: "1rem" }}>Saddleback</span><span style={{ fontFamily: "'Outfit',sans-serif", color: C.terraLight, fontSize: "0.6rem", fontWeight: 500, letterSpacing: "0.18em", textTransform: "uppercase" }}>Party Rentals</span></div>
               </div>
-              <p className="text-sm leading-relaxed" style={{ color: "rgba(255,255,255,0.4)" }}>South Orange County's local party rental company. Based in Coto de Caza, serving the entire Saddleback Valley.</p>
+              <p className="text-sm leading-relaxed" style={{ color: "rgba(255,255,255,0.4)" }}>South Orange County's local party rental company. Based in Mission Viejo, serving the entire Saddleback Valley.</p>
             </div>
             <div>
               <h4 className="text-xs font-bold tracking-widest uppercase mb-4" style={{ color: C.terraLight, letterSpacing: "0.15em" }}>Rentals</h4>
@@ -601,7 +601,7 @@ export default function App() {
             </div>
             <div>
               <h4 className="text-xs font-bold tracking-widest uppercase mb-4" style={{ color: C.terraLight, letterSpacing: "0.15em" }}>Contact</h4>
-              <div className="space-y-2.5 text-sm" style={{ color: "rgba(255,255,255,0.4)" }}><p>📞 (949) 555-0123</p><p>📧 info@saddlebackparty.com</p><p>📍 Coto de Caza, CA 92679</p><p>🕐 Mon-Sat 8am-7pm</p></div>
+              <div className="space-y-2.5 text-sm" style={{ color: "rgba(255,255,255,0.4)" }}><p>📞 (760) 310-0664</p><p>📧 saddlebackparty@gmail.com</p><p>📍 Mission Viejo, CA 92679</p><p>🕐 Mon-Sat 8am-7pm</p></div>
               <div className="flex gap-2.5 mt-4">{["Instagram","Facebook","Yelp"].map(s => <span key={s} className="text-xs px-3 py-1.5 rounded-full" style={{ border: "1px solid rgba(196,112,75,0.3)", color: C.terraLight }}>{s}</span>)}</div>
             </div>
           </div>
