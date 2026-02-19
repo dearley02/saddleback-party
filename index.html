@@ -10,6 +10,20 @@
       gtag('js', new Date());
       gtag('config', 'AW-17958052127');
     </script>
+    <script>
+function gtag_report_conversion(url) {
+  var callback = function () {
+    if (typeof(url) != 'undefined') {
+      window.location = url;
+    }
+  };
+  gtag('event', 'conversion', {
+    'send_to': 'AW-17958052127/bioACI7G5PkbEJ_CiPNC',
+    'event_callback': callback
+  });
+  return false;
+}
+</script>  
     <meta charset="UTF-8" />
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
