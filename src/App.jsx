@@ -509,7 +509,7 @@ const QuotePage = ({ nav }) => {
                   <label className="block text-xs font-bold tracking-wider uppercase mb-1.5" style={{ color: C.walnut, fontFamily: "'Outfit',sans-serif" }}>Notes / Special Requests</label>
                   <textarea rows="4" placeholder="Tell us about your event..." value={form.message} onChange={e => sf("message", e.target.value)} className="w-full px-4 py-3 rounded-lg text-sm" style={{ border: `1px solid ${C.sandDark}`, fontFamily: "'Outfit',sans-serif", background: C.cream, resize: "vertical" }} />
                 </div>
-                <Btn full onClick={() => { fetch("https://formspree.io/f/xojnwlyj", { method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify(form) }); setSubmitted(true); }}>Submit Quote Request →</Btn>
+                <Btn full onClick={() => { if(typeof gtag_report_conversion === 'function') gtag_report_conversion(); fetch("https://formspree.io/f/xojnwlyj", { method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify(form) }); setSubmitted(true); }}>Submit Quote Request →</Btn>
               </div>
             </div>
             <div className="lg:col-span-1">
