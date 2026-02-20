@@ -438,7 +438,7 @@ const QuotePage = ({ nav }) => {
         <div className="text-6xl mb-6">🎉</div>
         <h2 className="mb-4" style={{ fontFamily: "'DM Serif Display',serif", color: C.espresso, fontSize: "2rem" }}>Quote Request Submitted!</h2>
         <p className="mb-3" style={{ color: C.driftwood, fontFamily: "'Outfit',sans-serif" }}>We'll review your request and get back to you within a few hours with a detailed quote.</p>
-        <p className="text-sm mb-8" style={{ color: C.driftwood }}>For urgent inquiries, call <strong style={{ color: C.espresso }}>(760) 310-0664</strong>.</p>
+        <p className="text-sm mb-8" style={{ color: C.driftwood }}>For urgent inquiries, call <strong style={{ color: C.espresso }}>(949) 371-9792</strong>.</p>
         <Btn variant="dark" onClick={() => { setSubmitted(false); nav("home"); }}>← Back to Home</Btn>
       </div>
     </section>
@@ -523,7 +523,7 @@ const QuotePage = ({ nav }) => {
                 </>) : <p className="text-sm mb-4" style={{ color: "rgba(255,255,255,0.4)" }}>Select items to see your estimate.</p>}
                 <div className="pt-5" style={{ borderTop: "1px solid rgba(255,255,255,0.08)" }}>
                   <div className="text-xs font-bold tracking-wider uppercase mb-3" style={{ color: C.terraLight }}>Questions?</div>
-                  <div className="space-y-2 text-sm" style={{ color: "rgba(255,255,255,0.5)" }}><p>📞 (760) 310-0664</p><p>📧 saddlebackparty@gmail.com</p><p>📍 Mission Viejo, CA</p><p>🕐 Mon-Sat 8am-7pm</p></div>
+                  <div className="space-y-2 text-sm" style={{ color: "rgba(255,255,255,0.5)" }}><p>📞 (949) 371-9792</p><p>📧 saddlebackparty@gmail.com</p><p>📍 Mission Viejo, CA</p><p>🕐 Mon-Sun 8am-7pm</p></div>
                 </div>
               </div>
             </div>
@@ -601,7 +601,7 @@ export default function App() {
             </div>
             <div>
               <h4 className="text-xs font-bold tracking-widest uppercase mb-4" style={{ color: C.terraLight, letterSpacing: "0.15em" }}>Contact</h4>
-              <div className="space-y-2.5 text-sm" style={{ color: "rgba(255,255,255,0.4)" }}><p>📞 (760) 310-0664</p><p>📧 saddlebackparty@gmail.com</p><p>📍 Mission Viejo, CA 92679</p><p>🕐 Mon-Sat 8am-7pm</p></div>
+              <div className="space-y-2.5 text-sm" style={{ color: "rgba(255,255,255,0.4)" }}><p>📞 (949) 371-9792</p><p>📧 saddlebackparty@gmail.com</p><p>📍 Mission Viejo, CA 92691</p><p>🕐 Mon-Sun 8am-7pm</p></div>
               <div className="flex gap-2.5 mt-4">{["Instagram","Facebook","Yelp"].map(s => <span key={s} className="text-xs px-3 py-1.5 rounded-full" style={{ border: "1px solid rgba(196,112,75,0.3)", color: C.terraLight }}>{s}</span>)}</div>
             </div>
           </div>
