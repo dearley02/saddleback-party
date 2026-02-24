@@ -236,7 +236,7 @@ const HomePage = ({ nav }) => (
             <span style={{ fontFamily: "'Outfit',sans-serif", color: C.sageLight, fontSize: "0.72rem", fontWeight: 600, letterSpacing: "0.22em", textTransform: "uppercase" }}>South Orange County's Local Party Rental Co.</span>
           </div>
           <h1 style={{ fontFamily: "'DM Serif Display',serif", color: C.cream, fontSize: "clamp(2.8rem,6vw,4.2rem)", lineHeight: 1.1, fontWeight: 400, animation: "fadeUp 0.7s ease 0.1s both" }}>
-            Everything you need.<br /><span style={{ color: C.terraLight }}>Delivered to your door.</span>
+            Party Rentals in<br /><span style={{ color: C.terraLight }}>Mission Viejo & South OC</span>
           </h1>
           <p className="mt-6 mb-10 text-lg leading-relaxed" style={{ color: "rgba(255,255,255,0.6)", fontFamily: "'Outfit',sans-serif", fontWeight: 400, maxWidth: 520, animation: "fadeUp 0.7s ease 0.2s both" }}>
             Tables, chairs, tents, bounce houses, lighting & more — set up and ready to go for your next celebration in the Saddleback Valley.
