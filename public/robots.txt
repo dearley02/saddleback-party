@@ -1,0 +1,14 @@
+# Saddleback Party Rentals — robots.txt
+# https://www.saddlebackparty.com
+
+User-agent: *
+Allow: /
+
+# Block common admin / system paths in case routes get added later
+Disallow: /admin/
+Disallow: /api/
+Disallow: /.vercel/
+Disallow: /assets/
+
+# Sitemap
+Sitemap: https://www.saddlebackparty.com/sitemap.xml
