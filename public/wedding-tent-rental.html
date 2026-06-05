@@ -23,6 +23,7 @@
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
   gtag('config', 'AW-17958052127');
+  gtag('config', 'G-ES74W7EPR4');
 </script>
 <script type="application/ld+json">{
   "@context": "https://schema.org",
@@ -366,5 +367,14 @@
   <div class="links"><a href="/">Home</a></div>
 </footer>
 
+<!-- GA4 event tracking: phone clicks -->
+<script>
+  document.addEventListener('click', function (e) {
+    var tel = e.target.closest && e.target.closest('a[href^="tel:"]');
+    if (tel && typeof window.gtag === 'function') {
+      window.gtag('event', 'phone_click');
+    }
+  });
+</script>
 </body>
 </html>

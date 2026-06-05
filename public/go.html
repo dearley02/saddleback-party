@@ -1,6 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<!-- Google tag (gtag.js) - GA4 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-ES74W7EPR4"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-ES74W7EPR4');
+</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Party Rentals Mission Viejo | Tables, Chairs, Tents | Saddleback Party Rentals</title>
@@ -648,6 +656,7 @@
 <script>
   function handleSubmit(e) {
     e.preventDefault();
+    if (typeof gtag === 'function') gtag('event', 'generate_lead', { form_name: 'contact' });
     const form = document.getElementById('quoteForm');
     const success = document.getElementById('successMsg');
     // Collect form data for any backend/webhook integration
@@ -680,5 +689,14 @@
   gtag('config', 'AW-XXXXXXXXX');
 </script> -->
 
+<!-- GA4 event tracking: phone clicks -->
+<script>
+  document.addEventListener('click', function (e) {
+    var tel = e.target.closest && e.target.closest('a[href^="tel:"]');
+    if (tel && typeof window.gtag === 'function') {
+      window.gtag('event', 'phone_click');
+    }
+  });
+</script>
 </body>
 </html>
