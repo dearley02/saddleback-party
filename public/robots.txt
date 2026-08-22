@@ -8,7 +8,8 @@ Allow: /
 Disallow: /admin/
 Disallow: /api/
 Disallow: /.vercel/
-Disallow: /assets/
+# NOTE: /assets/ must stay crawlable — the homepage's render-critical JS/CSS live there.
+# Blocking it makes Googlebot render the homepage as an empty shell.
 
 # Sitemap
 Sitemap: https://www.saddlebackparty.com/sitemap.xml
