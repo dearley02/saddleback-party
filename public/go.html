@@ -8,6 +8,7 @@
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
   gtag('config', 'G-XVW9FXFD0P');
+  gtag('config', 'AW-17958052127');
 </script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -420,6 +421,20 @@
     color: #86efac;
     margin-top: 1rem;
   }
+  .error-msg {
+    display: none;
+    background: rgba(160,88,40,0.2);
+    border: 1px solid rgba(196,112,59,0.6);
+    border-radius: 12px;
+    padding: 1.5rem;
+    text-align: center;
+    color: #f0b48a;
+    margin-top: 1rem;
+  }
+  .error-msg h3 { font-size: 1rem; font-weight: 700; margin-bottom: 0.3rem; }
+  .error-msg p { font-size: 0.82rem; opacity: 0.9; }
+  .error-msg a { color: inherit; }
+  .form-submit:disabled { opacity: 0.6; cursor: progress; transform: none; }
   .success-msg h3 { font-size: 1rem; font-weight: 700; margin-bottom: 0.3rem; }
   .success-msg p { font-size: 0.82rem; opacity: 0.8; }
 
@@ -495,7 +510,7 @@
       <div class="price-icon">🪑</div>
       <div>
         <div class="price-card-name">Chiavari Chairs</div>
-        <div class="price-card-price">$5.00 <span class="price-card-unit">each</span></div>
+        <div class="price-card-price">$10.00 <span class="price-card-unit">each</span></div>
       </div>
     </div>
     <div class="price-card">
@@ -509,21 +524,21 @@
       <div class="price-icon">📋</div>
       <div>
         <div class="price-card-name">Round Tables</div>
-        <div class="price-card-price">$14 <span class="price-card-unit">each</span></div>
+        <div class="price-card-price">$15 <span class="price-card-unit">each</span></div>
       </div>
     </div>
     <div class="price-card">
       <div class="price-icon">⛺</div>
       <div>
-        <div class="price-card-name">10×10 Tent</div>
-        <div class="price-card-price">$85 <span class="price-card-unit">day</span></div>
+        <div class="price-card-name">10×20 Canopy Tent</div>
+        <div class="price-card-price">$150 <span class="price-card-unit">day</span></div>
       </div>
     </div>
     <div class="price-card">
       <div class="price-icon">🏠</div>
       <div>
         <div class="price-card-name">Bounce House</div>
-        <div class="price-card-price">$175 <span class="price-card-unit">day</span></div>
+        <div class="price-card-price">$250 <span class="price-card-unit">day</span></div>
       </div>
     </div>
   </div>
@@ -636,6 +651,11 @@
       <p class="form-note">No spam. We'll only contact you about your rental.</p>
     </form>
 
+    <div class="error-msg" id="errorMsg">
+      <h3>That didn't send</h3>
+      <p>Something went wrong on our end. Please try again, or call us on <a href="tel:+19493719792">(949) 371-9792</a>.</p>
+    </div>
+
     <div class="success-msg" id="successMsg">
       <h3>✓ Got it — we'll be in touch shortly!</h3>
       <p>Usually within 1 hour. If you need something sooner, call us at (949) 371-9792.</p>
@@ -654,40 +674,44 @@
 </footer>
 
 <script>
-  function handleSubmit(e) {
+  var FORMSPREE_ENDPOINT = 'https://formspree.io/f/xojnwlyj';
+
+  async function handleSubmit(e) {
     e.preventDefault();
-    if (typeof gtag === 'function') gtag('event', 'generate_lead', { form_name: 'contact' });
-    const form = document.getElementById('quoteForm');
-    const success = document.getElementById('successMsg');
-    // Collect form data for any backend/webhook integration
-    const data = new FormData(form);
-    const payload = Object.fromEntries(data.entries());
-    console.log('Quote request:', payload);
-    // Hide form, show success
+    var form = document.getElementById('quoteForm');
+    var success = document.getElementById('successMsg');
+    var error = document.getElementById('errorMsg');
+    var button = form.querySelector('.form-submit');
+    var payload = Object.fromEntries(new FormData(form).entries());
+
+    error.style.display = 'none';
+    button.disabled = true;
+    button.textContent = 'Sending…';
+
+    try {
+      var response = await fetch(FORMSPREE_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      if (!response.ok) throw new Error('Formspree responded ' + response.status);
+    } catch (err) {
+      // Never show the confirmation for a lead we did not manage to send.
+      button.disabled = false;
+      button.textContent = 'Send My Free Quote Request →';
+      error.style.display = 'block';
+      return;
+    }
+
+    // Only report the lead once it has actually been delivered.
+    if (typeof gtag === 'function') {
+      gtag('event', 'generate_lead', { form_name: 'contact' });
+      gtag('event', 'conversion', { send_to: 'AW-17958052127/bioACI7G5PkbEJ_CiPNC' });
+    }
     form.style.display = 'none';
     success.style.display = 'block';
-    // Optional: send to a webhook / email service
-    // fetch('YOUR_WEBHOOK_URL', { method: 'POST', body: JSON.stringify(payload) });
   }
-
-  // Track call clicks for Google Ads conversion
-  document.querySelectorAll('a[href^="tel:"]').forEach(el => {
-    el.addEventListener('click', () => {
-      if (typeof gtag !== 'undefined') {
-        gtag('event', 'conversion', { 'send_to': 'YOUR_CONVERSION_LABEL' });
-      }
-    });
-  });
 </script>
-
-<!-- Google Ads conversion tracking — replace with your actual tag -->
-<!-- <script async src="https://www.googletagmanager.com/gtag/js?id=AW-XXXXXXXXX"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'AW-XXXXXXXXX');
-</script> -->
 
 <!-- GA4 event tracking: phone clicks -->
 <script>
