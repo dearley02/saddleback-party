@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useId } from "react";
 
 const C = {
   terra: "#c4704b", terraLight: "#d4906f", terraDark: "#a85a38",
@@ -423,14 +423,51 @@ const AreasPage = ({ nav }) => (
   </div>
 );
 
+// Defined at module scope on purpose: a component created inside QuotePage's
+// render body is a new type on every keystroke, so React remounts the input
+// and the field loses both its value and the caret.
+const Inp = ({ label, type = "text", ph, value, onChange, error }) => {
+  const id = useId();
+  return (
+    <div>
+      <label htmlFor={id} className="block text-xs font-bold tracking-wider uppercase mb-1.5" style={{ color: C.walnut, fontFamily: "'Outfit',sans-serif", letterSpacing: "0.08em" }}>{label}</label>
+      <input id={id} type={type} placeholder={ph} value={value} onChange={onChange} aria-invalid={error ? "true" : undefined} aria-describedby={error ? `${id}-error` : undefined} className="w-full px-4 py-3 rounded-lg text-sm" style={{ border: `1px solid ${error ? C.terraDark : C.sandDark}`, fontFamily: "'Outfit',sans-serif", background: C.cream }} />
+      {error && <span id={`${id}-error`} className="block text-xs mt-1.5" style={{ color: C.terraDark, fontFamily: "'Outfit',sans-serif" }}>{error}</span>}
+    </div>
+  );
+};
+
 // --- QUOTE PAGE ---
 const QuotePage = ({ nav }) => {
   const [form, setForm] = useState({ name:"", email:"", phone:"", eventDate:"", eventType:"", city:"", guests:"", message:"", items:{} });
   const [submitted, setSubmitted] = useState(false);
-  const sf = (k, v) => setForm(p => ({ ...p, [k]: v }));
+  const [errors, setErrors] = useState({});
+  // Drop the key rather than blanking it, so `Object.keys(errors)` really is
+  // empty once the last field is corrected.
+  const sf = (k, v) => { setForm(p => ({ ...p, [k]: v })); setErrors(p => { if (!p[k]) return p; const { [k]: _drop, ...rest } = p; return rest; }); };
   const si = (id, q) => setForm(p => ({ ...p, items: { ...p.items, [id]: parseInt(q) || 0 } }));
   const total = Object.entries(form.items).reduce((s, [id, q]) => { const it = inventory.find(i => i.id === id); return s + (it ? it.priceNum * q : 0); }, 0);
-  const sel = Object.entries(form.items).filter(([_, q]) => q > 0);
+  const sel = Object.entries(form.items).filter(([, q]) => q > 0);
+
+  const validate = () => {
+    const e = {};
+    if (!form.name.trim()) e.name = "Please tell us your name.";
+    if (!form.email.trim()) e.email = "Please add an email so we can send your quote.";
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.trim())) e.email = "That email doesn't look right.";
+    if (!form.phone.trim()) e.phone = "Please add a phone number.";
+    if (!form.eventDate) e.eventDate = "Please pick your event date.";
+    return e;
+  };
+
+  const submit = () => {
+    const e = validate();
+    setErrors(e);
+    if (Object.keys(e).length > 0) return;
+    if (typeof gtag_report_conversion === "function") gtag_report_conversion();
+    if (typeof gtag === "function") gtag("event", "generate_lead", { form_name: "contact" });
+    fetch("https://formspree.io/f/xojnwlyj", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(form) });
+    setSubmitted(true);
+  };
 
   if (submitted) return (
     <section className="py-24" style={{ background: C.cream }}>
@@ -439,16 +476,9 @@ const QuotePage = ({ nav }) => {
         <h2 className="mb-4" style={{ fontFamily: "'DM Serif Display',serif", color: C.espresso, fontSize: "2rem" }}>Quote Request Submitted!</h2>
         <p className="mb-3" style={{ color: C.driftwood, fontFamily: "'Outfit',sans-serif" }}>We'll review your request and get back to you within a few hours with a detailed quote.</p>
         <p className="text-sm mb-8" style={{ color: C.driftwood }}>For urgent inquiries, call <strong style={{ color: C.espresso }}>(949) 371-9792</strong>.</p>
-        <Btn variant="dark" onClick={() => { setSubmitted(false); nav("home"); }}>← Back to Home</Btn>
+        <Btn variant="dark" onClick={() => { setSubmitted(false); setErrors({}); nav("home"); }}>← Back to Home</Btn>
       </div>
     </section>
-  );
-
-  const Inp = ({ label, k, type = "text", ph }) => (
-    <div>
-      <label className="block text-xs font-bold tracking-wider uppercase mb-1.5" style={{ color: C.walnut, fontFamily: "'Outfit',sans-serif", letterSpacing: "0.08em" }}>{label}</label>
-      <input type={type} placeholder={ph} value={form[k]} onChange={e => sf(k, e.target.value)} className="w-full px-4 py-3 rounded-lg text-sm" style={{ border: `1px solid ${C.sandDark}`, fontFamily: "'Outfit',sans-serif", background: C.cream }} />
-    </div>
   );
 
   return (
@@ -466,10 +496,10 @@ const QuotePage = ({ nav }) => {
               <div className="rounded-xl p-7" style={{ background: C.white, border: `1px solid ${C.sandDark}` }}>
                 <h3 className="text-xl mb-6" style={{ fontFamily: "'DM Serif Display',serif", color: C.espresso }}>Event Details</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
-                  <Inp label="Full Name *" k="name" ph="Your name" />
-                  <Inp label="Email *" k="email" type="email" ph="you@email.com" />
-                  <Inp label="Phone *" k="phone" type="tel" ph="(949) 555-0000" />
-                  <Inp label="Event Date *" k="eventDate" type="date" />
+                  <Inp label="Full Name *" ph="Your name" value={form.name} onChange={e => sf("name", e.target.value)} error={errors.name} />
+                  <Inp label="Email *" type="email" ph="you@email.com" value={form.email} onChange={e => sf("email", e.target.value)} error={errors.email} />
+                  <Inp label="Phone *" type="tel" ph="(949) 555-0000" value={form.phone} onChange={e => sf("phone", e.target.value)} error={errors.phone} />
+                  <Inp label="Event Date *" type="date" value={form.eventDate} onChange={e => sf("eventDate", e.target.value)} error={errors.eventDate} />
                   <div>
                     <label className="block text-xs font-bold tracking-wider uppercase mb-1.5" style={{ color: C.walnut, fontFamily: "'Outfit',sans-serif" }}>Event Type</label>
                     <select value={form.eventType} onChange={e => sf("eventType", e.target.value)} className="w-full px-4 py-3 rounded-lg text-sm" style={{ border: `1px solid ${C.sandDark}`, fontFamily: "'Outfit',sans-serif", background: C.cream, appearance: "auto" }}>
@@ -485,7 +515,7 @@ const QuotePage = ({ nav }) => {
                       <option>Other</option>
                     </select>
                   </div>
-                  <Inp label="Estimated Guests" k="guests" type="number" ph="50" />
+                  <Inp label="Estimated Guests" type="number" ph="50" value={form.guests} onChange={e => sf("guests", e.target.value)} />
                 </div>
                 <h3 className="text-xl mb-4" style={{ fontFamily: "'DM Serif Display',serif", color: C.espresso }}>Select Items</h3>
                 <div className="space-y-2.5 mb-8">
@@ -509,7 +539,8 @@ const QuotePage = ({ nav }) => {
                   <label className="block text-xs font-bold tracking-wider uppercase mb-1.5" style={{ color: C.walnut, fontFamily: "'Outfit',sans-serif" }}>Notes / Special Requests</label>
                   <textarea rows="4" placeholder="Tell us about your event..." value={form.message} onChange={e => sf("message", e.target.value)} className="w-full px-4 py-3 rounded-lg text-sm" style={{ border: `1px solid ${C.sandDark}`, fontFamily: "'Outfit',sans-serif", background: C.cream, resize: "vertical" }} />
                 </div>
-                <Btn full onClick={() => { if(typeof gtag_report_conversion === 'function') gtag_report_conversion(); if(typeof gtag === 'function') gtag('event','generate_lead',{form_name:'contact'}); fetch("https://formspree.io/f/xojnwlyj", { method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify(form) }); setSubmitted(true); }}>Submit Quote Request →</Btn>
+                <Btn full onClick={submit}>Submit Quote Request →</Btn>
+                {Object.keys(errors).length > 0 && <p className="text-sm mt-3 text-center" style={{ color: C.terraDark, fontFamily: "'Outfit',sans-serif" }}>Please fill in the highlighted fields above.</p>}
               </div>
             </div>
             <div className="lg:col-span-1">
