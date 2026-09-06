@@ -150,20 +150,32 @@ const inventory = [
   { id:"patio-heater", name:"Patio Heater", category:"Lighting & Comfort", price:"$65.00", priceNum:65, unit:"per heater", description:"Keep guests comfortable as the SoCal evening cools down. Tall propane patio heaters with 15-foot heat radius. Propane tank included.", specs:["Height: 87\"","Heat radius: ~15 feet","48,000 BTU","Propane tank included","Auto-shutoff safety"], popular:false, bg:C.parchment },
 ];
 
+const faqs = [
+  { q:"Do you deliver to my city?", a:"We're based in Mission Viejo and deliver throughout South Orange County: Rancho Santa Margarita, Coto de Caza, Lake Forest, Laguna Hills, Laguna Niguel, Ladera Ranch, Trabuco Canyon, San Juan Capistrano, Dana Point and Irvine. If your city isn't listed, call us. We most likely still cover it." },
+  { q:"What does delivery cost?", a:"Delivery runs $50 to $150 depending on distance from Mission Viejo, and it's free on orders over $500. You'll see the exact delivery fee on your quote before you commit to anything." },
+  { q:"Is setup and teardown included?", a:"Setup and teardown is $75 to $200 based on order size and complexity. Our crew brings everything to your door, sets it up exactly where you want it, and comes back to pick it all up when the event is over." },
+  { q:"How far in advance should I book?", a:"For weekend events in spring and summer, reserve 2 to 3 weeks out. Weekday and off-season dates usually need only a few days. Same-day delivery is often available on weekday orders confirmed before noon. Bounce houses and the larger tents book out fastest." },
+  { q:"How much does a backyard party cost?", a:"Folding chairs are $2.50 each, 6ft rectangular tables $12, 60-inch round tables $15, a 10x20 canopy $150, a bounce house $250 per day, and 100ft of string lights $35. Most backyard parties for 30 to 50 guests land between $300 and $700 depending on the mix." },
+  { q:"What happens if it rains?", a:"We watch the forecast with you and will work out a reschedule or partial credit. Tent setups include weather staking. If weather turns on event day, call us as early as you can so we can plan around it." },
+];
+
 const services = [
   { id:"delivery", name:"Delivery", price:"$50 – $150", note:"Based on distance. FREE on orders over $500.", emoji:"🚚" },
   { id:"setup", name:"Setup & Teardown", price:"$75 – $200", note:"Based on order size & complexity. We do the heavy lifting.", emoji:"🔧" },
 ];
 
 const serviceAreas = [
-  { city:"Mission Viejo", zip:"92691, 92692", pop:"90,670", tagline:"The Heart of Saddleback Valley", description:"From backyard birthday parties in tree-lined neighborhoods to elegant gatherings at the country club — we're your neighbors and your go-to party rental team.", highlights:["Oso Creek Trail events","Country Club gatherings","Community park parties","Neighborhood block parties"] },
-  { city:"Rancho Santa Margarita", zip:"92688", pop:"45,595", tagline:"Our Favorite Neighbor", description:"RSM's family-friendly community is one of our busiest areas. We're literally right around the corner — which means faster delivery and lower fees.", highlights:["Central Park events","RSM Lake pavilion","Bell Tower community","Backyard celebrations"] },
-  { city:"Coto de Caza", zip:"92679", pop:"15,363", tagline:"Our Home Base", description:"We live here. We know every gate code and every cul-de-sac. Coto's spacious backyards are made for outdoor entertaining — and we bring the rentals to match.", highlights:["Estate backyard events","Golf club celebrations","Private community events","Upscale dinner parties"] },
-  { city:"Lake Forest", zip:"92630", pop:"85,000+", tagline:"Growing Community, Growing Celebrations", description:"Lake Forest's blend of young families and established neighborhoods means there's always something to celebrate. Quick delivery, competitive pricing.", highlights:["Pittsford Park events","Heritage Park gatherings","Corporate & business events","School celebrations"] },
-  { city:"Laguna Hills", zip:"92653", pop:"32,000+", tagline:"Quick Delivery, Premium Quality", description:"Laguna Hills is right in our sweet spot — quick delivery, great pricing, and the same quality that makes every event special.", highlights:["Community center events","Nellie Gail Ranch","Church & school events","Backyard gatherings"] },
-  { city:"Ladera Ranch", zip:"92694", pop:"23,609", tagline:"Where Every Weekend is a Party", description:"Young families, active community, gorgeous outdoor spaces — Ladera is a party rental dream. 84% family households means there's always a celebration.", highlights:["Cox Sports Park events","Founders Park pavilion","HOA community events","Kids' birthday parties"] },
-  { city:"Trabuco Canyon", zip:"92679", pop:"~10,000", tagline:"Rustic Charm, Full Service", description:"Trabuco's spacious properties and rural character are perfect for outdoor celebrations. From rustic weddings to laid-back ranch BBQs.", highlights:["Rustic outdoor weddings","Ranch-style BBQs","O'Neill Regional Park","Canyon celebrations"] },
-  { city:"San Juan Capistrano", zip:"92675", pop:"36,000+", tagline:"Historic Setting, Modern Service", description:"From downtown plazas to hillside estates, San Juan offers unique event settings. We serve all of SJC with fast, reliable delivery.", highlights:["Historic downtown events","Los Rios District","Backyard celebrations","Venue partnerships"] },
+  { city:"Mission Viejo", slug:"mission-viejo", zip:"92691, 92692", pop:"90,670", tagline:"The Heart of Saddleback Valley", description:"From backyard birthday parties in tree-lined neighborhoods to elegant gatherings at the country club — we're your neighbors and your go-to party rental team.", highlights:["Oso Creek Trail events","Country Club gatherings","Community park parties","Neighborhood block parties"] },
+  { city:"Rancho Santa Margarita", slug:"rancho-santa-margarita", zip:"92688", pop:"45,595", tagline:"Our Favorite Neighbor", description:"RSM's family-friendly community is one of our busiest areas. We're literally right around the corner — which means faster delivery and lower fees.", highlights:["Central Park events","RSM Lake pavilion","Bell Tower community","Backyard celebrations"] },
+  { city:"Coto de Caza", slug:"coto-de-caza", zip:"92679", pop:"15,363", tagline:"Our Home Base", description:"We live here. We know every gate code and every cul-de-sac. Coto's spacious backyards are made for outdoor entertaining — and we bring the rentals to match.", highlights:["Estate backyard events","Golf club celebrations","Private community events","Upscale dinner parties"] },
+  { city:"Lake Forest", slug:"lake-forest", zip:"92630", pop:"85,000+", tagline:"Growing Community, Growing Celebrations", description:"Lake Forest's blend of young families and established neighborhoods means there's always something to celebrate. Quick delivery, competitive pricing.", highlights:["Pittsford Park events","Heritage Park gatherings","Corporate & business events","School celebrations"] },
+  { city:"Laguna Hills", slug:"laguna-hills", zip:"92653", pop:"32,000+", tagline:"Quick Delivery, Premium Quality", description:"Laguna Hills is right in our sweet spot — quick delivery, great pricing, and the same quality that makes every event special.", highlights:["Community center events","Nellie Gail Ranch","Church & school events","Backyard gatherings"] },
+  { city:"Ladera Ranch", slug:"ladera-ranch", zip:"92694", pop:"23,609", tagline:"Where Every Weekend is a Party", description:"Young families, active community, gorgeous outdoor spaces — Ladera is a party rental dream. 84% family households means there's always a celebration.", highlights:["Cox Sports Park events","Founders Park pavilion","HOA community events","Kids' birthday parties"] },
+  { city:"Trabuco Canyon", slug:"trabuco-canyon", zip:"92679", pop:"~10,000", tagline:"Rustic Charm, Full Service", description:"Trabuco's spacious properties and rural character are perfect for outdoor celebrations. From rustic weddings to laid-back ranch BBQs.", highlights:["Rustic outdoor weddings","Ranch-style BBQs","O'Neill Regional Park","Canyon celebrations"] },
+  { city:"San Juan Capistrano", slug:"san-juan-capistrano", zip:"92675", pop:"36,000+", tagline:"Historic Setting, Modern Service", description:"From downtown plazas to hillside estates, San Juan offers unique event settings. We serve all of SJC with fast, reliable delivery.", highlights:["Historic downtown events","Los Rios District","Backyard celebrations","Venue partnerships"] },
+  { city:"Laguna Niguel", slug:"laguna-niguel", zip:"92677", pop:"64,000+", tagline:"Hillside Views, Easy Setup", description:"Laguna Niguel's hillside neighborhoods and park spaces make for beautiful outdoor events. We handle the terrain, the setup, and the teardown.", highlights:["Crown Valley Park events","Hillside backyard parties","Community club gatherings","Graduation celebrations"] },
+  { city:"Dana Point", slug:"dana-point", zip:"92629", pop:"33,000+", tagline:"Coastal Celebrations", description:"Coastal events come with wind and salt air, and we plan for both. Weighted tents, secure staking, and gear that holds up by the water.", highlights:["Harbor-area events","Coastal backyard weddings","Beach-adjacent parties","Corporate offsites"] },
+  { city:"Irvine", slug:"irvine", zip:"92602, 92618", pop:"310,000+", tagline:"Our Northern Reach", description:"Irvine's villages and community parks keep us busy year-round. Larger orders, corporate events, and school celebrations are all in our wheelhouse.", highlights:["Village park events","Corporate & campus events","School celebrations","Large-format gatherings"] },
 ];
 
 // --- UTILITY COMPONENTS ---
@@ -203,6 +215,19 @@ const SubHead = ({ title, sub, light }) => (
 );
 
 // Hero scene - inline SVG illustration of a party setup
+const FaqList = ({ items }) => (
+  <div className="max-w-3xl mx-auto">
+    {items.map((f, i) => (
+      <details key={i} className="mb-3 rounded-xl overflow-hidden" style={{ background: C.white, border: `1px solid ${C.sandDark}` }}>
+        <summary className="px-6 py-4 text-base cursor-pointer list-none flex justify-between items-center gap-4" style={{ fontFamily: "'Outfit',sans-serif", fontWeight: 600, color: C.espresso }}>
+          <span>{f.q}</span><span style={{ color: C.terra, fontSize: "1.25rem", lineHeight: 1 }}>+</span>
+        </summary>
+        <p className="px-6 pb-5 text-sm leading-relaxed" style={{ color: C.driftwood, fontFamily: "'Outfit',sans-serif" }}>{f.a}</p>
+      </details>
+    ))}
+  </div>
+);
+
 const HeroScene = () => (
   <svg viewBox="0 0 600 400" fill="none" xmlns="http://www.w3.org/2000/svg" className="absolute right-0 top-1/2 -translate-y-1/2 opacity-20 md:opacity-30" style={{width:"55%",maxWidth:550}}>
     {/* String lights */}
@@ -306,9 +331,17 @@ const HomePage = ({ nav }) => (
       <div className="max-w-6xl mx-auto px-6">
         <SubHead title="Serving the Saddleback Valley" sub="Our Neighborhood" />
         <div className="flex flex-wrap justify-center gap-3 mb-6">
-          {serviceAreas.map((a, i) => <button key={i} onClick={() => nav("areas")} className="px-5 py-2.5 rounded-full text-sm transition-all duration-300 hover:scale-105" style={{ background: C.white, color: C.espresso, border: `1px solid ${C.sandDark}`, fontFamily: "'Outfit',sans-serif", fontWeight: 500, cursor: "pointer" }}>📍 {a.city}</button>)}
+          {serviceAreas.map((a, i) => <a key={i} href={`/${a.slug}`} className="px-5 py-2.5 rounded-full text-sm transition-all duration-300 hover:scale-105" style={{ background: C.white, color: C.espresso, border: `1px solid ${C.sandDark}`, fontFamily: "'Outfit',sans-serif", fontWeight: 500, textDecoration: "none", display: "inline-block" }}>📍 {a.city} Party Rentals</a>)}
         </div>
         <p className="text-center text-sm" style={{ color: C.driftwood }}>Based in Mission Viejo, delivering to all South OC. <button onClick={() => nav("areas")} style={{ color: C.terra, fontWeight: 600, background: "none", border: "none", cursor: "pointer", textDecoration: "underline" }}>See all service areas →</button></p>
+      </div>
+    </section>
+
+    <section className="py-20" style={{ background: C.linen }}>
+      <div className="max-w-6xl mx-auto px-6">
+        <SubHead title="Frequently Asked Questions" sub="Before You Book" />
+        <FaqList items={faqs} />
+        <p className="text-center text-sm mt-8" style={{ color: C.driftwood }}>Still have a question? Call <a href="tel:+19493719792" style={{ color: C.terra, fontWeight: 600, textDecoration: "none" }}>(949) 371-9792</a> or email <a href="mailto:saddlebackparty@gmail.com" style={{ color: C.terra, fontWeight: 600, textDecoration: "none" }}>saddlebackparty@gmail.com</a>.</p>
       </div>
     </section>
 
@@ -396,7 +429,7 @@ const AreasPage = ({ nav }) => (
             <FadeIn key={area.city} delay={idx * 0.06}>
               <div className="rounded-xl overflow-hidden transition-all duration-300 hover:shadow-lg" style={{ background: C.white, border: `1px solid ${C.sandDark}` }}>
                 <div className="px-6 py-4 flex justify-between items-center" style={{ background: `linear-gradient(135deg, ${C.espresso}, ${C.walnut})` }}>
-                  <div><h3 className="text-xl" style={{ fontFamily: "'DM Serif Display',serif", color: C.cream }}>📍 {area.city}</h3><span className="text-xs" style={{ color: C.terraLight, fontFamily: "'Outfit',sans-serif" }}>{area.tagline}</span></div>
+                  <div><h3 className="text-xl" style={{ fontFamily: "'DM Serif Display',serif", color: C.cream }}><a href={`/${area.slug}`} style={{ color: C.cream, textDecoration: "none" }}>📍 {area.city}</a></h3><span className="text-xs" style={{ color: C.terraLight, fontFamily: "'Outfit',sans-serif" }}>{area.tagline}</span></div>
                   <span className="text-xs px-3 py-1 rounded-full" style={{ background: "rgba(196,112,75,0.25)", color: C.terraLight }}>{area.zip}</span>
                 </div>
                 <div className="p-6">
@@ -405,7 +438,7 @@ const AreasPage = ({ nav }) => (
                     <div className="flex flex-wrap gap-2">{area.highlights.map((h, i) => <span key={i} className="text-xs px-3 py-1.5 rounded-full" style={{ background: C.sand, color: C.walnut }}>{h}</span>)}</div>
                   </div>
                   <div className="flex justify-between items-center pt-4" style={{ borderTop: `1px solid ${C.sand}` }}>
-                    <span className="text-xs" style={{ color: C.driftwood }}>Pop: {area.pop}</span>
+                    <a href={`/${area.slug}`} className="text-xs" style={{ color: C.terra, fontWeight: 600, fontFamily: "'Outfit',sans-serif", textDecoration: "none" }}>{area.city} party rentals →</a>
                     <button onClick={() => nav("quote")} style={{ color: C.terra, fontWeight: 600, fontSize: "0.8rem", fontFamily: "'Outfit',sans-serif", background: "none", border: "none", cursor: "pointer" }}>Get a quote →</button>
                   </div>
                 </div>
@@ -438,7 +471,7 @@ const QuotePage = ({ nav }) => {
         <div className="text-6xl mb-6">🎉</div>
         <h2 className="mb-4" style={{ fontFamily: "'DM Serif Display',serif", color: C.espresso, fontSize: "2rem" }}>Quote Request Submitted!</h2>
         <p className="mb-3" style={{ color: C.driftwood, fontFamily: "'Outfit',sans-serif" }}>We'll review your request and get back to you within a few hours with a detailed quote.</p>
-        <p className="text-sm mb-8" style={{ color: C.driftwood }}>For urgent inquiries, call <strong style={{ color: C.espresso }}>(949) 371-9792</strong>.</p>
+        <p className="text-sm mb-8" style={{ color: C.driftwood }}>For urgent inquiries, call <a href="tel:+19493719792" style={{ color: C.terra, fontWeight: 700, textDecoration: "none" }}>(949) 371-9792</a>.</p>
         <Btn variant="dark" onClick={() => { setSubmitted(false); nav("home"); }}>← Back to Home</Btn>
       </div>
     </section>
@@ -523,7 +556,7 @@ const QuotePage = ({ nav }) => {
                 </>) : <p className="text-sm mb-4" style={{ color: "rgba(255,255,255,0.4)" }}>Select items to see your estimate.</p>}
                 <div className="pt-5" style={{ borderTop: "1px solid rgba(255,255,255,0.08)" }}>
                   <div className="text-xs font-bold tracking-wider uppercase mb-3" style={{ color: C.terraLight }}>Questions?</div>
-                  <div className="space-y-2 text-sm" style={{ color: "rgba(255,255,255,0.5)" }}><p>📞 (949) 371-9792</p><p>📧 saddlebackparty@gmail.com</p><p>📍 Mission Viejo, CA</p><p>🕐 Mon-Sun 8am-7pm</p></div>
+                  <div className="space-y-2 text-sm" style={{ color: "rgba(255,255,255,0.5)" }}><p>📞 <a href="tel:+19493719792" style={{ color: "inherit", textDecoration: "none" }}>(949) 371-9792</a></p><p>📧 <a href="mailto:saddlebackparty@gmail.com" style={{ color: "inherit", textDecoration: "none" }}>saddlebackparty@gmail.com</a></p><p>📍 Mission Viejo, CA</p><p>🕐 Mon-Sun 8am-7pm</p></div>
                 </div>
               </div>
             </div>
@@ -568,11 +601,12 @@ export default function App() {
           <div className="cursor-pointer" onClick={() => nav("home")}><Logo /></div>
           <div className="hidden md:flex items-center gap-7">
             {links.map(l => <button key={l.p} onClick={() => nav(l.p)} style={{ fontFamily: "'Outfit',sans-serif", fontSize: "0.85rem", fontWeight: page === l.p ? 600 : 500, color: page === l.p ? C.terra : C.walnut, background: "none", border: "none", borderBottom: page === l.p ? `2px solid ${C.terra}` : "2px solid transparent", paddingBottom: 4, transition: "all 0.3s" }}>{l.label}</button>)}
+            <a href="tel:+19493719792" style={{ fontFamily: "'Outfit',sans-serif", fontSize: "0.85rem", fontWeight: 600, color: C.terra, textDecoration: "none" }}>(949) 371-9792</a>
             <Btn onClick={() => nav("quote")} className="!py-2.5 !px-5 !text-xs">Book Now</Btn>
           </div>
           <button className="md:hidden text-xl" onClick={() => setMenuOpen(!menuOpen)} style={{ background: "none", border: "none", color: C.espresso }}>{menuOpen ? "✕" : "☰"}</button>
         </div>
-        {menuOpen && <div className="md:hidden px-6 pb-4 space-y-2" style={{ borderTop: `1px solid ${C.sandDark}` }}>{links.map(l => <button key={l.p} onClick={() => nav(l.p)} className="block w-full text-left py-2.5 text-sm" style={{ fontWeight: page === l.p ? 600 : 500, color: page === l.p ? C.terra : C.walnut, background: "none", border: "none" }}>{l.label}</button>)}</div>}
+        {menuOpen && <div className="md:hidden px-6 pb-4 space-y-2" style={{ borderTop: `1px solid ${C.sandDark}` }}>{links.map(l => <button key={l.p} onClick={() => nav(l.p)} className="block w-full text-left py-2.5 text-sm" style={{ fontWeight: page === l.p ? 600 : 500, color: page === l.p ? C.terra : C.walnut, background: "none", border: "none" }}>{l.label}</button>)}<a href="tel:+19493719792" className="block w-full text-left py-2.5 text-sm" style={{ fontWeight: 600, color: C.terra, textDecoration: "none" }}>📞 (949) 371-9792</a></div>}
       </nav>
       <div style={{ height: 68 }} />
 
@@ -593,15 +627,20 @@ export default function App() {
             </div>
             <div>
               <h4 className="text-xs font-bold tracking-widest uppercase mb-4" style={{ color: C.terraLight, letterSpacing: "0.15em" }}>Rentals</h4>
-              <div className="space-y-2">{["Tables & Chairs","Tents & Canopies","Linens","Bounce Houses","Lighting & Heaters"].map(i => <button key={i} onClick={() => nav("catalog")} className="block text-sm" style={{ color: "rgba(255,255,255,0.4)", background: "none", border: "none" }}>{i}</button>)}</div>
+              <div className="space-y-2">
+                {[{l:"Wedding Tent Rental",h:"/wedding-tent-rental"},{l:"Bounce House Rental",h:"/bounce-house-rental"},{l:"Dance Floor Rental",h:"/dance-floor-rental"},{l:"Cocktail Table Rental",h:"/cocktail-table-rental"},{l:"Wedding Arch Rental",h:"/wedding-arch-rental"}].map(i => <a key={i.h} href={i.h} className="block text-sm" style={{ color: "rgba(255,255,255,0.4)", textDecoration: "none" }}>{i.l}</a>)}
+                <button onClick={() => nav("catalog")} className="block text-sm" style={{ color: "rgba(255,255,255,0.4)", background: "none", border: "none", padding: 0 }}>Full Catalog &amp; Pricing</button>
+              </div>
             </div>
             <div>
               <h4 className="text-xs font-bold tracking-widest uppercase mb-4" style={{ color: C.terraLight, letterSpacing: "0.15em" }}>Service Areas</h4>
-              <div className="space-y-2">{serviceAreas.slice(0, 6).map(a => <button key={a.city} onClick={() => nav("areas")} className="block text-sm" style={{ color: "rgba(255,255,255,0.4)", background: "none", border: "none" }}>{a.city}</button>)}</div>
+              <div className="space-y-2">
+                {serviceAreas.map(a => <a key={a.slug} href={`/${a.slug}`} className="block text-sm" style={{ color: "rgba(255,255,255,0.4)", textDecoration: "none" }}>{a.city}</a>)}
+              </div>
             </div>
             <div>
               <h4 className="text-xs font-bold tracking-widest uppercase mb-4" style={{ color: C.terraLight, letterSpacing: "0.15em" }}>Contact</h4>
-              <div className="space-y-2.5 text-sm" style={{ color: "rgba(255,255,255,0.4)" }}><p>📞 (949) 371-9792</p><p>📧 saddlebackparty@gmail.com</p><p>📍 Mission Viejo, CA 92691</p><p>🕐 Mon-Sun 8am-7pm</p></div>
+              <div className="space-y-2.5 text-sm" style={{ color: "rgba(255,255,255,0.4)" }}><p>📞 <a href="tel:+19493719792" style={{ color: "inherit", textDecoration: "none" }}>(949) 371-9792</a></p><p>📧 <a href="mailto:saddlebackparty@gmail.com" style={{ color: "inherit", textDecoration: "none" }}>saddlebackparty@gmail.com</a></p><p>📍 Mission Viejo, CA 92691</p><p>🕐 Mon-Sun 8am-7pm</p></div>
               <div className="flex gap-2.5 mt-4">{["Instagram","Facebook","Yelp"].map(s => <span key={s} className="text-xs px-3 py-1.5 rounded-full" style={{ border: "1px solid rgba(196,112,75,0.3)", color: C.terraLight }}>{s}</span>)}</div>
             </div>
           </div>
