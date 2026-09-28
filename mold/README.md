@@ -5,7 +5,9 @@ This is a parametric three-part casting mold (two shell halves plus a core) for 
 ```
 params.py   all dimensions (fit inputs in inches, everything else in mm)
 mold.py     CadQuery generator: builds, checks, exports, prints a summary
+render.py   PNG previews built from the same solids
 out/        mold_half_A.stl, mold_half_B.stl, core.stl
+renders/    part_iso.png, part_section.png, mold_exploded.png
 ```
 
 ```bash
@@ -13,7 +15,15 @@ pip install cadquery
 python mold.py                     # default build -> out/
 python mold.py --split-core        # also writes core_upper.stl + core_lower.stl
 python mold.py --texture rings     # 0.5 mm interior rings
+python render.py                   # regenerate renders/ (~40 s)
 ```
+
+`render.py` uses a small numpy z-buffer rasterizer, so it runs headless with no OpenGL.
+
+| | | |
+|---|---|---|
+| ![part](renders/part_iso.png) | ![section](renders/part_section.png) | ![mold](renders/mold_exploded.png) |
+| Finished part | Section with key dimensions | Exploded mold |
 
 ## Default dimensions (from `python mold.py`)
 
