@@ -155,6 +155,23 @@ const services = [
   { id:"setup", name:"Setup & Teardown", price:"$75 – $200", note:"Based on order size & complexity. We do the heavy lifting.", emoji:"🔧" },
 ];
 
+// Bundles priced at or below the à-la-carte item total, with delivery & setup included
+const packages = [
+  { id:"kids", name:"Kids Birthday Bash", guests:"Up to 24 kids & parents", price:495, tag:"Most Booked", bg:C.blush, icon:"bounce-house",
+    blurb:"Everything for a backyard birthday: the bounce house, a shaded canopy, and seating for the grown-ups.",
+    items:{ "bounce-house":1, "canopy-tent":1, "rect-table":3, "folding-chair":24 } },
+  { id:"dinner", name:"Backyard Dinner for 40", guests:"40 guests, seated", price:445, tag:"Best Value", bg:C.sand, icon:"string-lights",
+    blurb:"Long tables, linens, bistro lights overhead, and heaters so the party keeps going after sunset.",
+    items:{ "rect-table":5, "folding-chair":40, "tablecloth":5, "string-lights":3, "patio-heater":2 } },
+  { id:"holiday", name:"Holiday Hosting Kit", guests:"24 guests", price:325, tag:"Nov – Dec", bg:C.mintWash, icon:"patio-heater",
+    blurb:"Thanksgiving overflow, Friendsgiving, or a Christmas party on the patio. Extra tables, chairs, linens, warmth & light.",
+    items:{ "rect-table":3, "folding-chair":24, "tablecloth":3, "patio-heater":2, "string-lights":2 } },
+  { id:"estate", name:"Coto Estate Evening", guests:"48 guests, seated", price:1475, tag:"Premium", bg:C.parchment, icon:"frame-tent",
+    blurb:"A 20×20 frame tent, round tables with Chiavari chairs, linens, lights and heaters. Pro setup & teardown.",
+    items:{ "frame-tent":1, "round-table":6, "chiavari-chair":48, "tablecloth":6, "string-lights":4, "patio-heater":4 } },
+];
+const pkgValue = (pkg) => Object.entries(pkg.items).reduce((s, [id, q]) => s + (inventory.find(i => i.id === id)?.priceNum || 0) * q, 0);
+
 const serviceAreas = [
   { city:"Mission Viejo", zip:"92691, 92692", pop:"90,670", tagline:"The Heart of Saddleback Valley", description:"From backyard birthday parties in tree-lined neighborhoods to elegant gatherings at the country club — we're your neighbors and your go-to party rental team.", highlights:["Oso Creek Trail events","Country Club gatherings","Community park parties","Neighborhood block parties"] },
   { city:"Rancho Santa Margarita", zip:"92688", pop:"45,595", tagline:"Our Favorite Neighbor", description:"RSM's family-friendly community is one of our busiest areas. We're literally right around the corner — which means faster delivery and lower fees.", highlights:["Central Park events","RSM Lake pavilion","Bell Tower community","Backyard celebrations"] },
@@ -281,6 +298,15 @@ const HomePage = ({ nav }) => (
           ))}
         </div>
         <div className="text-center mt-12"><Btn variant="dark" onClick={() => nav("catalog")}>View Full Catalog →</Btn></div>
+      </div>
+    </section>
+
+    <section className="py-20" style={{ background: C.linen }}>
+      <div className="max-w-6xl mx-auto px-6">
+        <SubHead title="Party Packages" sub="Delivery & Setup Included" />
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {packages.map((p, i) => <FadeIn key={p.id} delay={i * 0.06} className="h-full"><PackageCard pkg={p} nav={nav} /></FadeIn>)}
+        </div>
       </div>
     </section>
 
@@ -424,8 +450,52 @@ const AreasPage = ({ nav }) => (
 );
 
 // --- QUOTE PAGE ---
-const QuotePage = ({ nav }) => {
-  const [form, setForm] = useState({ name:"", email:"", phone:"", eventDate:"", eventType:"", city:"", guests:"", message:"", items:{} });
+// --- PACKAGES ---
+const PackageCard = ({ pkg, nav }) => (
+  <div className="rounded-xl overflow-hidden h-full flex flex-col transition-all duration-300 hover:shadow-xl hover:-translate-y-1" style={{ background: C.white, border: `1px solid ${C.sandDark}` }}>
+    <div className="h-40 relative overflow-hidden">
+      <ProductIllustration type={pkg.icon} bg={pkg.bg} />
+      <span className="absolute top-3 right-3 text-xs font-semibold px-2.5 py-1 rounded-full" style={{ background: C.sage, color: C.cream, fontFamily: "'Outfit',sans-serif", fontSize: "0.65rem" }}>{pkg.tag.toUpperCase()}</span>
+    </div>
+    <div className="p-6 flex flex-col flex-1">
+      <h3 className="text-xl mb-1" style={{ fontFamily: "'DM Serif Display',serif", color: C.espresso }}>{pkg.name}</h3>
+      <p className="text-xs font-semibold mb-3" style={{ color: C.sage, fontFamily: "'Outfit',sans-serif", letterSpacing: "0.06em" }}>{pkg.guests}</p>
+      <p className="text-sm mb-4 leading-relaxed" style={{ color: C.driftwood, fontFamily: "'Outfit',sans-serif" }}>{pkg.blurb}</p>
+      <ul className="text-sm mb-5 space-y-1" style={{ color: C.walnut, fontFamily: "'Outfit',sans-serif" }}>
+        {Object.entries(pkg.items).map(([id, q]) => <li key={id}>✓ {q} × {inventory.find(i => i.id === id)?.name}</li>)}
+        <li>✓ Delivery, setup & pickup included</li>
+      </ul>
+      <div className="mt-auto">
+        <div className="flex items-end gap-2 mb-4">
+          <span className="text-2xl font-bold" style={{ fontFamily: "'DM Serif Display',serif", color: C.terra }}>${pkg.price.toLocaleString()}</span>
+          <span className="text-xs mb-1 line-through" style={{ color: C.driftwood }}>${pkgValue(pkg).toLocaleString()} + delivery</span>
+        </div>
+        <Btn full onClick={() => nav("quote", pkg.id)}>Book This Package</Btn>
+      </div>
+    </div>
+  </div>
+);
+
+const PackagesPage = ({ nav }) => (
+  <div>
+    <section className="pt-16 pb-12" style={{ background: `linear-gradient(160deg, ${C.linen}, ${C.blush})` }}>
+      <div className="max-w-6xl mx-auto px-6 text-center">
+        <SubHead title="Party Packages" sub="Everything Included" />
+        <p className="max-w-xl mx-auto -mt-8" style={{ color: C.driftwood, fontFamily: "'Outfit',sans-serif", fontSize: "0.95rem" }}>Pick a package and we handle the rest: delivery, setup, and pickup are included. Need more guests or a different mix? Adjust any package on the quote form.</p>
+      </div>
+    </section>
+    <section className="py-12" style={{ background: C.cream }}>
+      <div className="max-w-6xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        {packages.map((p, i) => <FadeIn key={p.id} delay={i * 0.06} className="h-full"><PackageCard pkg={p} nav={nav} /></FadeIn>)}
+      </div>
+      <p className="text-center text-sm mt-10" style={{ color: C.driftwood }}>Planning a wedding, school event, HOA gathering or corporate party? <button onClick={() => nav("quote")} style={{ color: C.terra, fontWeight: 600, background: "none", border: "none", textDecoration: "underline" }}>Request a custom quote →</button></p>
+    </section>
+  </div>
+);
+
+const QuotePage = ({ nav, initialPkg }) => {
+  const startPkg = packages.find(p => p.id === initialPkg);
+  const [form, setForm] = useState({ name:"", email:"", phone:"", eventDate:"", eventType:startPkg?.id === "holiday" ? "Holiday Party" : "", city:"", guests:"", message:"", package:startPkg ? `${startPkg.name} ($${startPkg.price})` : "", items:startPkg ? { ...startPkg.items } : {} });
   const [submitted, setSubmitted] = useState(false);
   const sf = (k, v) => setForm(p => ({ ...p, [k]: v }));
   const si = (id, q) => setForm(p => ({ ...p, items: { ...p.items, [id]: parseInt(q) || 0 } }));
@@ -444,8 +514,8 @@ const QuotePage = ({ nav }) => {
     </section>
   );
 
-  const Inp = ({ label, k, type = "text", ph }) => (
-    <div>
+  const inp = (label, k, type = "text", ph) => (
+    <div key={k}>
       <label className="block text-xs font-bold tracking-wider uppercase mb-1.5" style={{ color: C.walnut, fontFamily: "'Outfit',sans-serif", letterSpacing: "0.08em" }}>{label}</label>
       <input type={type} placeholder={ph} value={form[k]} onChange={e => sf(k, e.target.value)} className="w-full px-4 py-3 rounded-lg text-sm" style={{ border: `1px solid ${C.sandDark}`, fontFamily: "'Outfit',sans-serif", background: C.cream }} />
     </div>
@@ -466,10 +536,10 @@ const QuotePage = ({ nav }) => {
               <div className="rounded-xl p-7" style={{ background: C.white, border: `1px solid ${C.sandDark}` }}>
                 <h3 className="text-xl mb-6" style={{ fontFamily: "'DM Serif Display',serif", color: C.espresso }}>Event Details</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
-                  <Inp label="Full Name *" k="name" ph="Your name" />
-                  <Inp label="Email *" k="email" type="email" ph="you@email.com" />
-                  <Inp label="Phone *" k="phone" type="tel" ph="(949) 555-0000" />
-                  <Inp label="Event Date *" k="eventDate" type="date" />
+                  {inp("Full Name *", "name", "text", "Your name")}
+                  {inp("Email *", "email", "email", "you@email.com")}
+                  {inp("Phone *", "phone", "tel", "(949) 555-0000")}
+                  {inp("Event Date *", "eventDate", "date")}
                   <div>
                     <label className="block text-xs font-bold tracking-wider uppercase mb-1.5" style={{ color: C.walnut, fontFamily: "'Outfit',sans-serif" }}>Event Type</label>
                     <select value={form.eventType} onChange={e => sf("eventType", e.target.value)} className="w-full px-4 py-3 rounded-lg text-sm" style={{ border: `1px solid ${C.sandDark}`, fontFamily: "'Outfit',sans-serif", background: C.cream, appearance: "auto" }}>
@@ -485,9 +555,13 @@ const QuotePage = ({ nav }) => {
                       <option>Other</option>
                     </select>
                   </div>
-                  <Inp label="Estimated Guests" k="guests" type="number" ph="50" />
+                  {inp("Estimated Guests", "guests", "number", "50")}
                 </div>
                 <h3 className="text-xl mb-4" style={{ fontFamily: "'DM Serif Display',serif", color: C.espresso }}>Select Items</h3>
+                {form.package && <div className="p-3.5 rounded-lg mb-3 flex justify-between items-center gap-3" style={{ background: C.mintWash, border: `1px solid ${C.sageLight}` }}>
+                  <span className="text-sm" style={{ color: C.espresso }}>📦 <strong>Package:</strong> {form.package}. Delivery & setup included. Adjust quantities below and we'll re-quote.</span>
+                  <button onClick={() => sf("package", "")} className="text-xs" style={{ color: C.driftwood, background: "none", border: "none", textDecoration: "underline" }}>Remove</button>
+                </div>}
                 <div className="space-y-2.5 mb-8">
                   {inventory.map(item => (
                     <div key={item.id} className="flex items-center justify-between p-3.5 rounded-lg transition-all duration-200" style={{ background: (form.items[item.id] || 0) > 0 ? C.blush : C.cream, border: `1px solid ${(form.items[item.id] || 0) > 0 ? C.terra : C.sandDark}` }}>
@@ -518,7 +592,7 @@ const QuotePage = ({ nav }) => {
                 {sel.length > 0 ? (<>
                   <div className="space-y-2.5 mb-4">{sel.map(([id, qty]) => { const it = inventory.find(i => i.id === id); if (!it) return null; return <div key={id} className="flex justify-between text-sm" style={{ color: "rgba(255,255,255,0.6)", fontFamily: "'Outfit',sans-serif" }}><span className="truncate pr-2">{it.name} ×{qty}</span><span style={{ color: C.terraLight }}>${(it.priceNum * qty).toFixed(2)}</span></div>; })}</div>
                   <div className="pt-4 mt-3 flex justify-between items-center" style={{ borderTop: "1px solid rgba(255,255,255,0.1)" }}><span className="text-sm font-semibold" style={{ color: C.cream }}>Subtotal</span><span style={{ color: C.terraLight, fontFamily: "'DM Serif Display',serif", fontSize: "1.4rem" }}>${total.toFixed(2)}</span></div>
-                  <p className="text-xs mt-2 mb-4" style={{ color: "rgba(255,255,255,0.35)" }}>*Excludes delivery & setup</p>
+                  <p className="text-xs mt-2 mb-4" style={{ color: "rgba(255,255,255,0.35)" }}>{form.package ? `Package: ${form.package}, delivery & setup included. Changes to quantities are re-quoted.` : "*Excludes delivery & setup"}</p>
                   {total >= 500 && <div className="p-3 rounded-lg mb-4" style={{ background: "rgba(122,154,126,0.3)" }}><p className="text-xs font-bold" style={{ color: C.sageLight }}>🎉 FREE DELIVERY — order over $500!</p></div>}
                 </>) : <p className="text-sm mb-4" style={{ color: "rgba(255,255,255,0.4)" }}>Select items to see your estimate.</p>}
                 <div className="pt-5" style={{ borderTop: "1px solid rgba(255,255,255,0.08)" }}>
@@ -546,8 +620,9 @@ export default function App() {
     return () => window.removeEventListener("scroll", fn);
   }, []);
 
-  const nav = (p) => { setPage(p); setMenuOpen(false); window.scrollTo({ top: 0, behavior: "smooth" }); };
-  const links = [{ label: "Home", p: "home" }, { label: "Rentals", p: "catalog" }, { label: "Service Areas", p: "areas" }, { label: "Get a Quote", p: "quote" }];
+  const [quotePkg, setQuotePkg] = useState(null);
+  const nav = (p, pkg = null) => { setQuotePkg(pkg); setPage(p); setMenuOpen(false); window.scrollTo({ top: 0, behavior: "smooth" }); };
+  const links = [{ label: "Home", p: "home" }, { label: "Packages", p: "packages" }, { label: "Rentals", p: "catalog" }, { label: "Service Areas", p: "areas" }, { label: "Get a Quote", p: "quote" }];
 
   return (
     <div style={{ fontFamily: "'Outfit',sans-serif" }}>
@@ -579,7 +654,8 @@ export default function App() {
       {page === "home" && <HomePage nav={nav} />}
       {page === "catalog" && <CatalogPage nav={nav} />}
       {page === "areas" && <AreasPage nav={nav} />}
-      {page === "quote" && <QuotePage nav={nav} />}
+      {page === "packages" && <PackagesPage nav={nav} />}
+      {page === "quote" && <QuotePage key={quotePkg || "custom"} nav={nav} initialPkg={quotePkg} />}
 
       <footer style={{ background: C.espresso }}>
         <div className="max-w-6xl mx-auto px-6 py-16">
