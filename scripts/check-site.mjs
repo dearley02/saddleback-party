@@ -7,7 +7,8 @@ const failures = [];
 
 const forbidden = [
   [/\bbounce\b/i, "bounce"],
-  [/\bchiavari\b/i, "chiavari"],
+  [/\bnatural wood\b/i, "natural wood"],
+  [/\bincluded\b/i, "included"],
   [/\bcocktail\b/i, "cocktail"],
   [/\bdance[\s-]?floor/i, "dance floor"],
   [/\bwedding[\s-]?arch/i, "wedding arch"],
@@ -112,6 +113,16 @@ for (const file of pages) {
     '"opens": "08:00"',
     '"closes": "18:00"',
     "quote-form",
+    "Chiavari",
+    "white resin",
+    "from $6",
+    "$14",
+    "$15",
+    "$50",
+    "$500",
+    'name="chiavari_chairs"',
+    'name="round_48"',
+    'name="round_60"',
   ]) {
     if (!text.includes(token)) failures.push(`${name} is missing ${token}`);
   }
@@ -121,6 +132,18 @@ const siteJs = fs.readFileSync(path.join(root, "public", "site.js"), "utf8");
 if (!siteJs.includes("generate_lead")) failures.push("site.js missing generate_lead");
 if (!siteJs.includes('form_name: "contact"')) failures.push("site.js missing form_name contact");
 if (!siteJs.includes("https://formspree.io/f/xojnwlyj")) failures.push("site.js missing Formspree endpoint");
+for (const token of [
+  "chiavari_chairs: 6",
+  "folding_chairs: 2.5",
+  "table_6ft: 12",
+  "table_8ft: 12",
+  "round_48: 14",
+  "round_60: 15",
+  "total > 500",
+]) {
+  if (!siteJs.includes(token)) failures.push(`site.js is missing ${token}`);
+}
+if (/\bincluded\b/i.test(siteJs)) failures.push("site.js still says included");
 
 const sitemapPath = path.join(root, "public", "sitemap.xml");
 const sitemap = fs.readFileSync(sitemapPath, "utf8");

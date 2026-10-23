@@ -1,3 +1,12 @@
+const RATES = {
+  folding_chairs: 2.5,
+  chiavari_chairs: 6,
+  table_6ft: 12,
+  table_8ft: 12,
+  round_48: 14,
+  round_60: 15,
+};
+
 function money(amount) {
   return amount.toFixed(2);
 }
@@ -10,22 +19,32 @@ function readQty(form, name) {
   return value;
 }
 
-function estimateText(chairs, tables) {
-  if (!chairs && !tables) {
+function estimateText(total, pieces) {
+  if (!pieces) {
     return "Add chair and table quantities to see a starting estimate.";
   }
-  const total = chairs * 2.5 + tables * 12;
-  const chairLabel = chairs === 1 ? "1 chair" : chairs + " chairs";
-  const tableLabel = tables === 1 ? "1 table" : tables + " tables";
-  return (
-    "Starting estimate: $" +
+  let message =
+    "Starting rental estimate: $" +
     money(total) +
-    " for " +
-    chairLabel +
-    " and " +
-    tableLabel +
-    ". Chairs are $2.50 each and tables are $12 each at the published starting rates. Delivery, setup, and pickup are included inside the service area. Your quote confirms the final total."
-  );
+    ". White resin folding chairs are $2.50, Chiavari chairs are $6, 6 ft and 8 ft tables are $12, 48 inch rounds are $14, and 60 inch rounds are $15.";
+  if (total > 500) {
+    message += " This rental total qualifies for free delivery.";
+  } else {
+    message += " Delivery is $50 to $150 by distance, and free on orders over $500.";
+  }
+  message += " Setup is quoted on request. Your quote confirms the final total.";
+  return message;
+}
+
+function orderTotal(form) {
+  let total = 0;
+  let pieces = 0;
+  for (const [name, rate] of Object.entries(RATES)) {
+    const qty = readQty(form, name);
+    total += qty * rate;
+    pieces += qty;
+  }
+  return { total, pieces };
 }
 
 function localToday() {
@@ -40,14 +59,9 @@ function bindQuoteForm(form) {
   if (dateField && !dateField.min) dateField.min = localToday();
 
   const refresh = () => {
-    const chairs = readQty(form, "folding_chairs");
-    const tables =
-      readQty(form, "table_6ft") +
-      readQty(form, "table_8ft") +
-      readQty(form, "round_48") +
-      readQty(form, "round_60");
-    if (output) output.textContent = estimateText(chairs, tables);
-    return chairs * 2.5 + tables * 12;
+    const order = orderTotal(form);
+    if (output) output.textContent = estimateText(order.total, order.pieces);
+    return order;
   };
 
   form.addEventListener("input", refresh);
@@ -63,15 +77,9 @@ function bindQuoteForm(form) {
     }
     const button = form.querySelector('[type="submit"]');
     if (button) button.disabled = true;
-    const total = refresh();
+    const order = refresh();
     const payload = Object.fromEntries(new FormData(form).entries());
-    const chairs = readQty(form, "folding_chairs");
-    const tables =
-      readQty(form, "table_6ft") +
-      readQty(form, "table_8ft") +
-      readQty(form, "round_48") +
-      readQty(form, "round_60");
-    payload.starting_estimate = chairs || tables ? money(total) : "";
+    payload.starting_estimate = order.pieces ? money(order.total) : "";
 
     try {
       const response = await fetch("https://formspree.io/f/xojnwlyj", {
