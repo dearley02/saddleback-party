@@ -1,4 +1,16 @@
 {
   "cleanUrls": true,
-  "trailingSlash": false
+  "trailingSlash": false,
+  "redirects": [
+    { "source": "/bounce-house-rental", "destination": "/", "statusCode": 301 },
+    { "source": "/bounce-house-rental.html", "destination": "/", "statusCode": 301 },
+    { "source": "/cocktail-table-rental", "destination": "/", "statusCode": 301 },
+    { "source": "/cocktail-table-rental.html", "destination": "/", "statusCode": 301 },
+    { "source": "/dance-floor-rental", "destination": "/", "statusCode": 301 },
+    { "source": "/dance-floor-rental.html", "destination": "/", "statusCode": 301 },
+    { "source": "/wedding-arch-rental", "destination": "/", "statusCode": 301 },
+    { "source": "/wedding-arch-rental.html", "destination": "/", "statusCode": 301 },
+    { "source": "/wedding-tent-rental", "destination": "/", "statusCode": 301 },
+    { "source": "/wedding-tent-rental.html", "destination": "/", "statusCode": 301 }
+  ]
 }
